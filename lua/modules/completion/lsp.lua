@@ -82,7 +82,7 @@ for _, server in ipairs(mason_lsp.get_installed_servers()) do
 				},
 			},
 		})
-	elseif server == "sumneko_lua" then
+	elseif server == "lua_ls" then
 		nvim_lsp.sumneko_lua.setup({
 			capabilities = capabilities,
 			on_attach = custom_attach,

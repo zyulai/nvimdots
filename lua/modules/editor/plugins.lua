@@ -13,6 +13,7 @@ editor["terrortylor/nvim-comment"] = {
 }
 editor["nvim-treesitter/nvim-treesitter"] = {
 	opt = true,
+	tag = "0.7.2",
 	run = ":TSUpdate",
 	event = "BufReadPost",
 	config = conf.nvim_treesitter,
