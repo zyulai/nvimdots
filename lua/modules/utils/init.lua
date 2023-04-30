@@ -29,12 +29,29 @@ local M = {}
 ---@field crust string
 ---@field none "NONE"
 
----@type palette
+---@type nil|palette
 local palette = nil
+
+-- Indicates if autocmd for refreshing the builtin palette has already been registered
+---@type boolean
+local _has_autocmd = false
 
 ---Initialize the palette
 ---@return palette
 local function init_palette()
+	-- Reinitialize the palette on event `ColorScheme`
+	if not _has_autocmd then
+		_has_autocmd = true
+		vim.api.nvim_create_autocmd("ColorScheme", {
+			group = vim.api.nvim_create_augroup("__builtin_palette", { clear = true }),
+			pattern = "*",
+			callback = function()
+				palette = nil
+				init_palette()
+			end,
+		})
+	end
+
 	if not palette then
 		palette = vim.g.colors_name:find("catppuccin") and require("catppuccin.palettes").get_palette()
 			or {
@@ -183,6 +200,7 @@ function M.get_palette(overwrite)
 	end
 end
 
+-- Generate highlight groups for lspsaga. Existing attributes will NOT be overwritten
 function M.gen_lspkind_hl()
 	local colors = M.get_palette()
 	local dat = {
@@ -227,6 +245,30 @@ function M.gen_lspkind_hl()
 	end
 end
 
+-- Generate highlight groups for alpha. Existing attributes will NOT be overwritten
+function M.gen_alpha_hl()
+	local colors = M.get_palette()
+
+	vim.api.nvim_set_hl(0, "AlphaHeader", { fg = colors.blue, default = true })
+	vim.api.nvim_set_hl(0, "AlphaButtons", { fg = colors.green, default = true })
+	vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = colors.pink, italic = true, default = true })
+	vim.api.nvim_set_hl(0, "AlphaFooter", { fg = colors.yellow, default = true })
+end
+
+-- Generate blend_color for neodim.
+function M.gen_neodim_blend_attr()
+	local trans_bg = require("core.settings").transparent_background
+	local appearance = require("core.settings").background
+
+	if trans_bg and appearance == "dark" then
+		return "#000000"
+	elseif trans_bg and appearance == "light" then
+		return "#FFFFFF"
+	else
+		return M.hl_to_rgb("Normal", true)
+	end
+end
+
 ---Convert number (0/1) to boolean
 ---@param value number @The value to check
 ---@return boolean|nil @Returns nil if failed
@@ -239,7 +281,7 @@ function M.tobool(value)
 		vim.notify(
 			"Attempting to convert data of type '" .. type(value) .. "' [other than 0 or 1] to boolean",
 			vim.log.levels.ERROR,
-			{ title = "[utils] Runtime error" }
+			{ title = "[utils] Runtime Error" }
 		)
 		return nil
 	end

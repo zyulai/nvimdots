@@ -71,6 +71,7 @@ tool["nvim-telescope/telescope.nvim"] = {
 	lazy = true,
 	cmd = "Telescope",
 	config = require("tool.telescope"),
+	commit = "057ee0f",
 	dependencies = {
 		{ "nvim-tree/nvim-web-devicons" },
 		{ "nvim-lua/plenary.nvim" },
@@ -111,6 +112,7 @@ tool["mfussenegger/nvim-dap"] = {
 			"rcarriga/nvim-dap-ui",
 			config = require("tool.dap.dapui"),
 		},
+		{ "jay-babu/mason-nvim-dap.nvim" },
 	},
 }
 

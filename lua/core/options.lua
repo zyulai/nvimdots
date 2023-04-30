@@ -17,7 +17,7 @@ local function load_options()
 		breakat = [[\ \	;:,!?]],
 		breakindentopt = "shift:2,min:20",
 		clipboard = "unnamedplus",
-		cmdheight = 2, -- 0, 1, 2
+		cmdheight = 1, -- 0, 1, 2
 		cmdwinheight = 5,
 		complete = ".,w,b,k",
 		completeopt = "menuone,noselect",
@@ -58,8 +58,8 @@ local function load_options()
 		relativenumber = true,
 		ruler = true,
 		scrolloff = 2,
-		sessionoptions = "curdir,help,tabpages,winsize",
-		shada = "!,'300,<50,@100,s10,h",
+		sessionoptions = "buffers,curdir,folds,help,tabpages,winpos,winsize",
+		shada = "!,'500,<50,@100,s10,h",
 		shiftround = true,
 		shiftwidth = 4,
 		shortmess = "aoOTIcF",
@@ -109,12 +109,9 @@ local function load_options()
 	if not isempty(conda_prefix) then
 		vim.g.python_host_prog = conda_prefix .. "/bin/python"
 		vim.g.python3_host_prog = conda_prefix .. "/bin/python"
-	elseif global.is_mac then
-		vim.g.python_host_prog = "/usr/bin/python"
-		vim.g.python3_host_prog = "/usr/local/bin/python3"
 	else
-		vim.g.python_host_prog = "/usr/bin/python"
-		vim.g.python3_host_prog = "/usr/bin/python3"
+		vim.g.python_host_prog = "python"
+		vim.g.python3_host_prog = "python3"
 	end
 
 	for name, value in pairs(global_local) do
@@ -124,7 +121,7 @@ local function load_options()
 	-- Fix sqlite3 missing-lib issue on Windows
 	if global.is_windows then
 		-- Download the DLLs form https://www.sqlite.org/download.html
-		vim.g.sqlite_clib_path = global.home .. "/Documents/sqlite-dll-win64-x64-3400100/sqlite3.dll"
+		vim.g.sqlite_clib_path = global.home .. "/Documents/sqlite-dll-win64-x64-3400200/sqlite3.dll"
 	end
 end
 

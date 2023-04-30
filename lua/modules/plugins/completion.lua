@@ -5,14 +5,19 @@ completion["neovim/nvim-lspconfig"] = {
 	event = { "BufReadPost", "BufAdd", "BufNewFile" },
 	config = require("completion.lsp"),
 	dependencies = {
-		{ "ray-x/lsp_signature.nvim" },
 		{ "williamboman/mason.nvim" },
 		{ "williamboman/mason-lspconfig.nvim" },
 		{
-			"glepnir/lspsaga.nvim",
-			config = require("completion.lspsaga"),
+			"ray-x/lsp_signature.nvim",
+			config = require("completion.lsp-signature"),
 		},
 	},
+}
+completion["nvimdev/lspsaga.nvim"] = {
+	lazy = true,
+	event = "LspAttach",
+	config = require("completion.lspsaga"),
+	dependencies = { "nvim-tree/nvim-web-devicons" },
 }
 completion["jose-elias-alvarez/null-ls.nvim"] = {
 	lazy = true,
@@ -33,7 +38,6 @@ completion["hrsh7th/nvim-cmp"] = {
 			dependencies = { "rafamadriz/friendly-snippets" },
 			config = require("completion.luasnip"),
 		},
-		{ "onsails/lspkind.nvim" },
 		{ "lukas-reineke/cmp-under-comparator" },
 		{ "saadparwaiz1/cmp_luasnip" },
 		{ "hrsh7th/cmp-nvim-lsp" },
