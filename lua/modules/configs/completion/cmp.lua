@@ -62,7 +62,40 @@ return function()
 				compare.kind,
 				compare.length,
 				compare.order,
+			}
+		or {
+			-- require("cmp_tabnine.compare"),
+			compare.offset, -- Items closer to cursor will have lower priority
+			compare.exact,
+			-- compare.scopes,
+			compare.lsp_scores,
+			compare.sort_text,
+			compare.score,
+			compare.recently_used,
+			-- compare.locality, -- Items closer to cursor will have higher priority, conflicts with `offset`
+			require("cmp-under-comparator").under,
+			compare.kind,
+			compare.length,
+			compare.order,
+		}
+
+	local cmp = require("cmp")
+	cmp.setup({
+		preselect = cmp.PreselectMode.Item,
+		window = {
+			completion = {
+				border = border("PmenuBorder"),
+				winhighlight = "Normal:Pmenu,CursorLine:PmenuSel,Search:PmenuSel",
+				scrollbar = false,
 			},
+			documentation = {
+				border = border("CmpDocBorder"),
+				winhighlight = "Normal:CmpDoc",
+			},
+		},
+		sorting = {
+			priority_weight = 2,
+			comparators = comparators,
 		},
 		formatting = {
 			fields = { "abbr", "kind", "menu" },
