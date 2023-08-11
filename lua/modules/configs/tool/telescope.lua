@@ -32,9 +32,9 @@ return function()
 				vertical = {
 					mirror = false,
 				},
-				width = 0.85,
-				height = 0.92,
-				preview_cutoff = 120,
+				width = 0.99,
+				height = 0.90,
+				preview_cutoff = 100,
 			},
 			file_previewer = require("telescope.previewers").vim_buffer_cat.new,
 			grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
