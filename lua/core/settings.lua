@@ -87,7 +87,7 @@ settings["lsp_deps"] = {
 	"jsonls",
 	"lua_ls",
 	"pylsp",
-	-- "gopls",
+	"gopls",
 }
 
 -- Set the general-purpose servers that will be installed during bootstrap here.
@@ -112,6 +112,11 @@ settings["dap_deps"] = {
 	"codelldb", -- C-Family
 	"delve", -- Go
 	"python", -- Python (debugpy)
+}
+
+-- Disable the two plugins
+settings["disabled_plugins"] = {
+	"copilot",
 }
 
 return settings
